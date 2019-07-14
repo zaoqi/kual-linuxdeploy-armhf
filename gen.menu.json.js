@@ -1,16 +1,15 @@
 #!/usr/bin/env node
 const kterm_scripts=
-      ["Linux",
-       [
-	   ["Install Alpine Linux","./install.alpine.sh"],
-	   ["Umount","./umount.sh"],
-	   ["Resize rootfs","./resize.sh"],
-	   ["Remove rootfs",
-	    [["Yes,Remove rootfs","./remove.sh"],
-	     ["No",null]],
-	   ],
-       ]
-      ]
+      ["LinuxDeploy",
+       [["Linux",
+	 [
+	     ["Install Alpine Linux","./install.alpine.sh"],
+	     ["Umount","./umount.sh"],
+	     ["Resize rootfs","./resize.sh"],
+	     ["Remove rootfs",
+	      [["Yes,Remove rootfs","./remove.sh"],
+	       ["No",null]],
+	     ]]]]]
 
 function translate_kterm_scripts(name,priority,script){
     if(script===null||script===void 0){
@@ -34,4 +33,4 @@ function translate_kterm_scripts(name,priority,script){
     }
 }
 
-console.log(JSON.stringify(translate_kterm_scripts(kterm_scripts[0],0,kterm_scripts[1]),null,4))
+console.log(JSON.stringify(translate_kterm_scripts(kterm_scripts[0],0,kterm_scripts[1]),null,2))

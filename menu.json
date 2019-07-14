@@ -1,40 +1,46 @@
 {
-    "name": "Linux",
-    "priority": 0,
-    "items": [
+  "name": "LinuxDeploy",
+  "priority": 0,
+  "items": [
+    {
+      "name": "Linux",
+      "priority": 0,
+      "items": [
         {
-            "name": "Install Alpine Linux",
-            "priority": 0,
-            "action": "/mnt/us/extensions/kterm/bin/kterm.sh",
-            "params": "-e ./install.alpine.sh"
+          "name": "Install Alpine Linux",
+          "priority": 0,
+          "action": "/mnt/us/extensions/kterm/bin/kterm.sh",
+          "params": "-e ./install.alpine.sh"
         },
         {
-            "name": "Umount",
-            "priority": 1,
-            "action": "/mnt/us/extensions/kterm/bin/kterm.sh",
-            "params": "-e ./umount.sh"
+          "name": "Umount",
+          "priority": 1,
+          "action": "/mnt/us/extensions/kterm/bin/kterm.sh",
+          "params": "-e ./umount.sh"
         },
         {
-            "name": "Resize rootfs",
-            "priority": 2,
-            "action": "/mnt/us/extensions/kterm/bin/kterm.sh",
-            "params": "-e ./resize.sh"
+          "name": "Resize rootfs",
+          "priority": 2,
+          "action": "/mnt/us/extensions/kterm/bin/kterm.sh",
+          "params": "-e ./resize.sh"
         },
         {
-            "name": "Remove rootfs",
-            "priority": 3,
-            "items": [
-                {
-                    "name": "Yes,Remove rootfs",
-                    "priority": 0,
-                    "action": "/mnt/us/extensions/kterm/bin/kterm.sh",
-                    "params": "-e ./remove.sh"
-                },
-                {
-                    "name": "No",
-                    "priority": 1
-                }
-            ]
+          "name": "Remove rootfs",
+          "priority": 3,
+          "items": [
+            {
+              "name": "Yes,Remove rootfs",
+              "priority": 0,
+              "action": "/mnt/us/extensions/kterm/bin/kterm.sh",
+              "params": "-e ./remove.sh"
+            },
+            {
+              "name": "No",
+              "priority": 1
+            }
+          ]
         }
-    ]
+      ]
+    }
+  ]
 }
