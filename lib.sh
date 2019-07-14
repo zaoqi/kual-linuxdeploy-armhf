@@ -75,9 +75,21 @@ umount_rootfs_all(){
     rm "$ROOTFS_LOCK" || fail
 }
 
+resize_rootfs_interactive(){
+    [ -f "$ROOTFS_LOCK" ] && fail "rootfs mounted."
+    echo "Please enter the rootfs size and press Enter (e.g. 1000M):"
+    if read ROOTFS_SIZE && [ -n "$ROOTFS_SIZE" ]; then
+	resize2fs "$ROOTFS_IMG" "$ROOTFS_SIZE" || fail "cannot resize."
+    else
+	resize2fs "$ROOTFS_IMG" 512M || fail "cannot resize."
+    fi
+}
+
 install_rootfs(){
     [ -f "$ROOTFS_LOCK" ] && fail "rootfs mounted."
     rm -fr "$ROOTFS_IMG" || fail
+    cp rootfs."$ROOTFS_TYPE".base "$ROOTFS_IMG" || fail
+    resize_rootfs_interactive
     mount_rootfs_base
     curl "$(get_rootfs_tgz_url)" | tar -xvz -C "$ROOTFS_DIR" || fail "download and extract rootfs: failed."
     umount_rootfs_all
