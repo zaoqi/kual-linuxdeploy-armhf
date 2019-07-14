@@ -94,7 +94,7 @@ resize_rootfs_interactive(){
     fi
 }
 
-install_rootfs(){
+install_alpine_rootfs(){
     [ -f "$ROOTFS_LOCK" ] && fail "rootfs mounted."
     rm -fr "$ROOTFS_IMG" || fail
     cp rootfs."$ROOTFS_TYPE".base "$ROOTFS_IMG" || fail
