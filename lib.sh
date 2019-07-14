@@ -65,6 +65,14 @@ mount_rootfs_base(){
     mkdir -p "$ROOTFS_DIR" || fail
     mount -o loop "$ROOTFS_IMG" "$ROOTFS_DIR" || fail "cannot mount rootfs."
 }
+mount_rootfs_all(){
+    mount_rootfs_base
+    mkdir -p "$INNER_TMP" || fail
+    mount -o bind "$INNER_TMP" "$ROOTFS_DIR/tmp" || fail "cannot bind /tmp."
+    for d in /dev /dev/pts /proc /sys; do
+	mount -o bind "/$d" "$ROOTFS_DIR/$d" || fail "cannot bind $d"
+    done
+}
 
 umount_rootfs_all(){
     [ -f "$ROOTFS_LOCK" ] || fail "rootfs is not mounted."
@@ -93,15 +101,6 @@ install_rootfs(){
     mount_rootfs_base
     curl "$(get_rootfs_tgz_url)" | tar -xvz -C "$ROOTFS_DIR" || fail "download and extract rootfs: failed."
     umount_rootfs_all
-}
-
-mount_rootfs_all(){
-    mount_rootfs_base
-    mkdir -p "$INNER_TMP" || fail
-    mount -o bind "$INNER_TMP" "$ROOTFS_DIR/tmp" || fail "cannot bind /tmp."
-    for d in /dev /dev/pts /proc /sys; do
-	mount -o bind "/$d" "$ROOTFS_DIR/$d" || fail "cannot bind $d"
-    done
 }
 
 do_chroot(){
