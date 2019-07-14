@@ -34,7 +34,7 @@ ROOTFS_LOCK="/tmp/kUaL_lInUx_mOuNtEd"
 INNER_TMP="/tmp/kUaL_lInUx"
 mkdir -p tmp.testext4
 cp rootfs.ext4.base tmp.testext4.img || fail
-if mount -o loop tmp.testext4.img tmp.testext4; then
+if mount -o loop tmp.testext4.img tmp.testext4 2>/dev/null; then
     echo This kernel support ext4.
     ROOTFS_TYPE=ext4
 else
@@ -44,8 +44,8 @@ else
     echo This kernel support ext3.
     ROOTFS_TYPE=ext3
 fi
-umount tmp.testext4
-umount tmp.testext3
+umount tmp.testext4 2>/dev/null
+umount tmp.testext3 2>/dev/null
 rm -fr tmp.*
 
 get_rootfs_tgz_filename(){
