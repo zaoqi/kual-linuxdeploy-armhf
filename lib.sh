@@ -77,8 +77,9 @@ mount_rootfs_all(){
 umount_rootfs_all(){
     [ -f "$ROOTFS_LOCK" ] || fail "rootfs is not mounted."
     for d in /dev/pts /dev /proc /sys /tmp; do
-	umount "$ROOTFS_DIR/$d"
+	umount "$ROOTFS_DIR/$d" 2>/dev/null
     done
+    cp /etc/hostname /etc/hosts /etc/resolv.conf "$ROOTFS_DIR/etc"
     umount "$ROOTFS_DIR" || fail "cannot unmount rootfs."
     rm "$ROOTFS_LOCK" || fail
 }
