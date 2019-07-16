@@ -17,8 +17,8 @@ rootfs.ext4.base:
 menu.json: gen.menu.json.js
 	./gen.menu.json.js > menu.json
 
-extensions: chroot.shell.sh config.xml install.alpine.sh lib.sh LICENSE remove.sh resize.sh rootfs.ext3.base rootfs.ext4.base umount.sh menu.json
-	rm -fr $@
+extensions: chroot.shell.sh config.xml install.alpine.sh lib.sh LICENSE remove.sh resize.sh rootfs.ext3.base rootfs.ext4.base umount.sh menu.json mirror.china.sh
+	rm -fr extensions
 	$(MAKE) -C ./e2fsprogs/
 	mkdir -p extensions/$(PACKAGE)
 	cp $^ ./e2fsprogs/out/sbin/resize2fs extensions/$(PACKAGE)

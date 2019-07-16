@@ -36,24 +36,18 @@ fail(){
 BIN="$(pwd)"
 ROOTFS_DIR="$(pwd)/rootfs"
 ROOTFS_IMG="$(pwd)/rootfs.img"
-ROOTFS_TYPE=ext3
 ROOTFS_LOCK="/tmp/kUaL_lInUx_mOuNtEd"
 INNER_TMP="/tmp/kUaL_lInUx"
-mkdir -p tmp.testext4
-cp rootfs.ext4.base tmp.testext4.img || fail
-if mount -o loop tmp.testext4.img tmp.testext4 2>/dev/null; then
-    echo This kernel support ext4.
+ROOTFS_TYPE=unknown
+if [ -z "$(grep 'nodev.*ext4' /proc/filesystems)" ] && [ -n "$(grep 'ext4' /proc/filesystems)" ]; then
+    echo "This kernel support ext4."
     ROOTFS_TYPE=ext4
-else
-    mkdir -p tmp.testext3
-    cp rootfs.ext3.base tmp.testext3.img || fail
-    mount -o loop tmp.testext3.img tmp.testext3 || fail "This kernel doesn't support ext4 and ext3."
-    echo This kernel support ext3.
+elif [ -z "$(grep 'nodev.*ext3' /proc/filesystems)" ] && [ -n "$(grep 'ext3' /proc/filesystems)" ]; then
+    echo "This kernel support ext3 and doesn't support ext4."
     ROOTFS_TYPE=ext3
+else
+    fail "This kernel doesn't support ext4 and ext3."
 fi
-umount tmp.testext4 2>/dev/null
-umount tmp.testext3 2>/dev/null
-rm -fr tmp.*
 
 get_rootfs_tgz_filename(){
     curl http://dl-cdn.alpinelinux.org/alpine/edge/releases/armhf/ |

@@ -5,12 +5,13 @@ const kterm_scripts=
 	 [
 	     ["Install Alpine Linux","./install.alpine.sh"],
 	     ["Shell","./chroot.shell.sh"],
+	     ["Change mirror",[
+		 ["China Mainland","./mirror.china.sh"]]],
 	     ["Umount","./umount.sh"],
 	     ["Resize rootfs","./resize.sh"],
 	     ["Remove rootfs",
 	      [["Yes,Remove rootfs","./remove.sh"],
-	       ["No",null]],
-	     ]]]]]
+	       ["No",null]]]]]]]
 
 function translate_kterm_scripts(name,priority,script){
     if(script===null||script===void 0){
