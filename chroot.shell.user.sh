@@ -4,6 +4,6 @@
 
 [ -f "$ROOTFS_LOCK" ] || mount_rootfs_all
 
-do_chroot su
+do_chroot su -l kindle
 
 quit

@@ -3,10 +3,16 @@ const kterm_scripts=
       ["LinuxDeploy",
        [["Linux",
 	 [
-	     ["Install Alpine Linux","./install.alpine.sh"],
-	     ["Shell","./chroot.shell.sh"],
+	     ["Install",[
+		 ["Alpine Linux Edge","./install.alpine.sh"],
+		 ["Ubuntu 19.04(maybe require Linux 4.x?)","./install.ubuntu.1904.sh"]]],
 	     ["Change mirror",[
 		 ["China Mainland","./mirror.china.sh"]]],
+	     ["Add a sudo-enabled user called \"kindle\"","./install.sudo.user.sh"],
+	     ["Reset \"kindle\" user's password","./set.user.password.sh"],
+	     ["Shell",[
+		 ["USER=kindle","./chroot.shell.user.sh"],
+		 ["USER=root","./chroot.shell.sh"]]],
 	     ["Umount","./umount.sh"],
 	     ["Resize rootfs","./resize.sh"],
 	     ["Remove rootfs",

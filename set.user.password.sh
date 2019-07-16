@@ -4,6 +4,6 @@
 
 [ -f "$ROOTFS_LOCK" ] || mount_rootfs_all
 
-do_chroot su
+do_chroot passwd kindle || fail "cannot change password."
 
 quit

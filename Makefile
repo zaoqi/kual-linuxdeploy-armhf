@@ -17,7 +17,7 @@ rootfs.ext4.base:
 menu.json: gen.menu.json.js
 	./gen.menu.json.js > menu.json
 
-extensions: chroot.shell.sh config.xml install.alpine.sh lib.sh LICENSE remove.sh resize.sh rootfs.ext3.base rootfs.ext4.base umount.sh menu.json mirror.china.sh
+extensions: *.sh config.xml LICENSE rootfs.ext3.base rootfs.ext4.base menu.json
 	rm -fr extensions
 	$(MAKE) -C ./e2fsprogs/
 	mkdir -p extensions/$(PACKAGE)

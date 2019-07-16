@@ -17,8 +17,6 @@ echo "
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 "
 
-cd "$(dirname "$0")"
-
 quit(){
     echo "Done. $*"
     echo "press enter to countinue."
@@ -32,6 +30,8 @@ fail(){
     read
     exit 1
 }
+
+cd "$(dirname "$0")" || fail
 
 BIN="$(pwd)"
 ROOTFS_DIR="$(pwd)/rootfs"
@@ -49,15 +49,9 @@ else
     fail "This kernel doesn't support ext4 and ext3."
 fi
 
-get_rootfs_tgz_filename(){
-    curl http://dl-cdn.alpinelinux.org/alpine/edge/releases/armhf/ |
-	grep '^<a.*"alpine-minirootfs-[0-9]*-armhf\.tar\.gz"' |
-	sed 's|^<a *href="\(.*\)">.*</a>.*$|\1|' |
-	sort |
-	tail -1
-}
-get_rootfs_tgz_url(){
-    echo "http://dl-cdn.alpinelinux.org/alpine/edge/releases/armhf/$(get_rootfs_tgz_filename)"
+copy_etc_files(){
+    [ -f "$ROOTFS_LOCK" ] || fail "rootfs is not mounted."
+    cp /etc/hostname /etc/hostname /etc/hosts /etc/resolv.conf "$ROOTFS_DIR/etc"
 }
 
 mount_rootfs_base(){
@@ -65,19 +59,16 @@ mount_rootfs_base(){
     touch "$ROOTFS_LOCK" || fail
     mkdir -p "$ROOTFS_DIR" || fail
     mount -o loop "$ROOTFS_IMG" "$ROOTFS_DIR" || fail "cannot mount rootfs."
+    chmod 755 "$ROOTFS_DIR" || fail
 }
 mount_rootfs_all(){
     mount_rootfs_base
+    copy_etc_files
     mkdir -p "$INNER_TMP" || fail
     mount -o bind "$INNER_TMP" "$ROOTFS_DIR/tmp" || fail "cannot bind /tmp."
     for d in /dev /dev/pts /proc /sys; do
 	mount -o bind "/$d" "$ROOTFS_DIR/$d" || fail "cannot bind $d"
     done
-}
-
-copy_etc_files(){
-    [ -f "$ROOTFS_LOCK" ] || fail "rootfs is not mounted."
-    cp /etc/hostname /etc/hostname /etc/hosts /etc/resolv.conf "$ROOTFS_DIR/etc"
 }
 
 umount_rootfs_all(){
@@ -96,13 +87,14 @@ resize_rootfs_interactive(){
     "$BIN"/resize2fs "$ROOTFS_IMG" "$ROOTFS_SIZE" || fail "cannot resize."
 }
 
-install_alpine_rootfs(){
+install_tgz_rootfs(){
+    local ROOTFS_TGZ_URL="$1"
     [ -f "$ROOTFS_LOCK" ] && fail "rootfs mounted."
     rm -fr "$ROOTFS_IMG" || fail
     cp rootfs."$ROOTFS_TYPE".base "$ROOTFS_IMG" || fail
     resize_rootfs_interactive
     mount_rootfs_base
-    curl "$(get_rootfs_tgz_url)" | tar -xvz -C "$ROOTFS_DIR" || fail "download and extract rootfs: failed."
+    curl "$ROOTFS_TGZ_URL" | tar -xvz -C "$ROOTFS_DIR" || fail "download and extract rootfs: failed."
     umount_rootfs_all
 }
 
