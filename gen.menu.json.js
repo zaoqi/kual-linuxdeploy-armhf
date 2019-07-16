@@ -4,6 +4,7 @@ const kterm_scripts=
        [["Linux",
 	 [
 	     ["Install Alpine Linux","./install.alpine.sh"],
+	     ["Shell","./chroot.shell.sh"],
 	     ["Umount","./umount.sh"],
 	     ["Resize rootfs","./resize.sh"],
 	     ["Remove rootfs",
