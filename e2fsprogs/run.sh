@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 set -e
-img="$(basename "$(mktemp -u)")"
-docker build -t "$img" .
+img="temp${RANDOM}temp${RANDOM}temp${RANDOM}temp"
 rm -fr out
+docker build -t "$img" .
 mkdir out
-docker run -it --rm -v "$(pwd)/out:/out" "$img" cp -vr /src/ /out/
+docker run --rm -v "$(pwd)/out:/out" "$img" sh -c "cp -vr /src/* /out/ && chown -R $(id -u):$(id -g) /out/*"
 docker rmi "$img"
