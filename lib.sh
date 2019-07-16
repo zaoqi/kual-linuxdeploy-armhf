@@ -56,7 +56,7 @@ get_rootfs_tgz_filename(){
 	tail -1
 }
 get_rootfs_tgz_url(){
-    echo "http://dl-cdn.alpinelinux.org/alpine/edge/releases/armhf/$(get_rootfs_filename)"
+    echo "http://dl-cdn.alpinelinux.org/alpine/edge/releases/armhf/$(get_rootfs_tgz_filename)"
 }
 
 mount_rootfs_base(){
