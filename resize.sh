@@ -5,3 +5,5 @@
 [ -f "$ROOTFS_LOCK" ] && umount_rootfs_all
 
 resize_rootfs_interactive
+
+quit

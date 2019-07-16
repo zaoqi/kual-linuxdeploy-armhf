@@ -19,6 +19,13 @@ echo "
 
 cd "$(dirname "$0")"
 
+quit(){
+    echo "Done. $*"
+    echo "press enter to countinue."
+    read
+    exit 0
+}
+
 fail(){
     echo "Failed. $*"
     echo "press enter to countinue."
