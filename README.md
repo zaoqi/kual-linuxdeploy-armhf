@@ -2,7 +2,7 @@
 
 ## Requirements
 
-`p7zip` `docker` and normal GNU/Linux
+`nodejs` `p7zip` `docker` and normal GNU/Linux
 
 ## Build ZIP
 
