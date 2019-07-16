@@ -87,11 +87,8 @@ umount_rootfs_all(){
 resize_rootfs_interactive(){
     [ -f "$ROOTFS_LOCK" ] && fail "rootfs mounted."
     echo "Please enter the rootfs size and press Enter (e.g. 1000M):"
-    if read ROOTFS_SIZE && [ -n "$ROOTFS_SIZE" ]; then
-	resize2fs "$ROOTFS_IMG" "$ROOTFS_SIZE" || fail "cannot resize."
-    else
-	resize2fs "$ROOTFS_IMG" 512M || fail "cannot resize."
-    fi
+    read ROOTFS_SIZE || fail "cannot read input."
+    "$BIN"/resize2fs "$ROOTFS_IMG" "$ROOTFS_SIZE" || fail "cannot resize."
 }
 
 install_alpine_rootfs(){
