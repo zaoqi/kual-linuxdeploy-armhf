@@ -1,4 +1,6 @@
-all: kual-linuxdeploy-armhf.zip
+PACKAGE=kual-linuxdeploy-armhf
+
+all: $(PACKAGE).zip
 
 rootfs.ext3.base:
 	dd if=/dev/zero of=rootfs.ext3.base bs=10M count=1
@@ -15,7 +17,12 @@ rootfs.ext4.base:
 menu.json: gen.menu.json.js
 	./gen.menu.json.js > menu.json
 
-kual-linuxdeploy-armhf.zip: chroot.shell.sh config.xml install.alpine.sh lib.sh LICENSE remove.sh resize.sh rootfs.ext3.base rootfs.ext4.base umount.sh menu.json
-	rm -f $@
+extensions: chroot.shell.sh config.xml install.alpine.sh lib.sh LICENSE remove.sh resize.sh rootfs.ext3.base rootfs.ext4.base umount.sh menu.json
+	rm -fr $@
 	$(MAKE) -C ./e2fsprogs/
-	7z a $@  $^ ./e2fsprogs/out/sbin/resize2fs
+	mkdir -p extensions/$(PACKAGE)
+	cp $^ ./e2fsprogs/out/sbin/resize2fs extensions/$(PACKAGE)
+
+$(PACKAGE).zip: extensions
+	rm -f $@
+	7z a $@ $^
