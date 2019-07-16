@@ -18,4 +18,4 @@ $ make
 
 # Screenshot
 
-![screenshot 1](./screenshot/screenshot_2019_07_16T15_54_28+0800.png)
+![screenshot 1](./screenshot/screenshot_2019_07_16T17_10_42+0800.png)
