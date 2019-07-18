@@ -66,6 +66,7 @@ mount_rootfs_all(){
     copy_etc_files
     mkdir -p "$INNER_TMP" || fail
     mount -o bind "$INNER_TMP" "$ROOTFS_DIR/tmp" || fail "cannot bind /tmp."
+    chmod 777 "$ROOTFS_DIR/tmp" || fail
     for d in /dev /dev/pts /proc /sys; do
 	mount -o bind "/$d" "$ROOTFS_DIR/$d" || fail "cannot bind $d"
     done
