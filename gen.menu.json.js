@@ -13,10 +13,14 @@ const kterm_scripts=
 	     ["Shell",[
 		 ["USER=kindle","./chroot.shell.user.sh"],
 		 ["USER=root","./chroot.shell.sh"]]],
+	     ["Add/Resize swap file","./make.swap.sh"],
+	     ["Remove swap file",
+	      [["Yes,remoce swap file","./remove.swap.sh"],
+	       ["No",null]]],
 	     ["Umount","./umount.sh"],
 	     ["Resize rootfs","./resize.sh"],
 	     ["Remove rootfs",
-	      [["Yes,Remove rootfs","./remove.sh"],
+	      [["Yes,remove rootfs","./remove.sh"],
 	       ["No",null]]]]]]]
 
 function translate_kterm_scripts(name,priority,script){

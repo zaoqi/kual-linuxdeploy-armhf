@@ -35,7 +35,9 @@ cd "$(dirname "$0")" || fail
 
 BIN="$(pwd)"
 ROOTFS_DIR="$(pwd)/rootfs"
+SWAP_IMG="$(pwd)/swap"
 ROOTFS_IMG="$(pwd)/rootfs.img"
+SWAP_LOCK="/tmp/kUaL_lInUx_sWaP_mOuNtEd"
 ROOTFS_LOCK="/tmp/kUaL_lInUx_mOuNtEd"
 INNER_TMP="/tmp/kUaL_lInUx"
 ROOTFS_TYPE=unknown
@@ -49,11 +51,22 @@ else
     fail "This kernel doesn't support ext4 and ext3."
 fi
 
+baseus(){
+    echo "$*" | sed 's|^/mnt/us/|/mnt/base-us/|'
+}
+
 copy_etc_files(){
     [ -f "$ROOTFS_LOCK" ] || fail "rootfs is not mounted."
     cp /etc/hostname /etc/hostname /etc/hosts /etc/resolv.conf "$ROOTFS_DIR/etc"
 }
 
+mount_swap(){
+    if [ ! -f "$SWAP_LOCK" ] && [ -f "$SWAP_IMG" ]; then
+	touch "$SWAP_LOCK" || fail
+	mkswap "$(baseus "$SWAP_IMG")" || fail "cannot mount swap."
+	swapon "$(baseus "$SWAP_IMG")" || fail "cannot mount swap."
+    fi
+}
 mount_rootfs_base(){
     [ -f "$ROOTFS_LOCK" ] && fail "rootfs mounted."
     touch "$ROOTFS_LOCK" || fail
@@ -70,8 +83,15 @@ mount_rootfs_all(){
     for d in /dev /dev/pts /proc /sys; do
 	mount -o bind "/$d" "$ROOTFS_DIR/$d" || fail "cannot bind $d"
     done
+    mount_swap
 }
 
+umount_swap(){
+    if [ -f "$SWAP_LOCK" ] ; then
+	swapoff "$(baseus "$SWAP_IMG")" || fail "cannot unmount swap."
+	rm "$SWAP_LOCK" || fail
+    fi
+}
 umount_rootfs_all(){
     [ -f "$ROOTFS_LOCK" ] || fail "rootfs is not mounted."
     for d in /dev/pts /dev /proc /sys /tmp; do
@@ -79,11 +99,27 @@ umount_rootfs_all(){
     done
     umount "$ROOTFS_DIR" || fail "cannot unmount rootfs."
     rm "$ROOTFS_LOCK" || fail
+    umount_swap
 }
 
+remove_swap(){
+    [ -f "$SWAP_LOCK" ] && umount_swap
+    rm -f "$SWAP_IMG" || fail
+}
+make_swap_interactive(){
+    remove_swap
+    cp rootfs."$ROOTFS_TYPE".base "$SWAP_IMG" || fail
+    echo "Please enter the size of swap file and press Enter (e.g. 1000M):"
+    local SWAP_SIZE
+    read SWAP_SIZE || fail "cannot read input."
+    "$BIN"/resize2fs "$SWAP_IMG" "$SWAP_SIZE" || fail "cannot resize."
+    mkswap "$SWAP_IMG"
+    mount_swap
+}
 resize_rootfs_interactive(){
     [ -f "$ROOTFS_LOCK" ] && fail "rootfs mounted."
     echo "Please enter the rootfs size and press Enter (e.g. 1000M):"
+    local ROOTFS_SIZE
     read ROOTFS_SIZE || fail "cannot read input."
     "$BIN"/resize2fs "$ROOTFS_IMG" "$ROOTFS_SIZE" || fail "cannot resize."
 }

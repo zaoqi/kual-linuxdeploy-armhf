@@ -4,6 +4,6 @@
 
 [ -f "$ROOTFS_LOCK" ] && umount_rootfs_all
 
-rm -fr "$ROOTFS_IMG" || fail
+rm -f "$ROOTFS_IMG" || fail
 
 quit
