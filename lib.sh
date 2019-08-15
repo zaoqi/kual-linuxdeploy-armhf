@@ -41,15 +41,22 @@ SWAP_LOCK="/tmp/kUaL_lInUx_sWaP_mOuNtEd"
 ROOTFS_LOCK="/tmp/kUaL_lInUx_mOuNtEd"
 INNER_TMP="/tmp/kUaL_lInUx"
 ROOTFS_TYPE=unknown
-if [ -z "$(grep 'nodev.*ext4' /proc/filesystems)" ] && [ -n "$(grep 'ext4' /proc/filesystems)" ]; then
+cp rootfs.ext4.base tmp.test.fs.tmp || fail
+mkdir -p tmp.test.fs.dir || fail
+if [ -f fs.config ];then
+    ROOTFS_TYPE="$(cat fs.config)"
+elif mount -o loop tmp.test.fs.tmp tmp.test.fs.dir 2>/dev/null; then
     echo "This kernel support ext4."
     ROOTFS_TYPE=ext4
-elif [ -z "$(grep 'nodev.*ext3' /proc/filesystems)" ] && [ -n "$(grep 'ext3' /proc/filesystems)" ]; then
-    echo "This kernel support ext3 and doesn't support ext4."
-    ROOTFS_TYPE=ext3
+    echo ext4 > fs.config
 else
-    fail "This kernel doesn't support ext4 and ext3."
+    echo "This kernel doesn't support ext4."
+    ROOTFS_TYPE=ext3
+    echo ext3 > fs.config
 fi
+umount tmp.test.fs.tmp 2>/dev/null
+umount tmp.test.fs.dir 2>/dev/null
+rm -fr tmp.test.fs.tmp tmp.test.fs.dir 2>/dev/null
 
 baseus(){
     echo "$*" | sed 's|^/mnt/us/|/mnt/base-us/|'
