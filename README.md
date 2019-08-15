@@ -10,6 +10,8 @@
 
 `nodejs` `p7zip` `docker` and normal GNU/Linux
 
+alpinelinux: `apk add e2fsprogs-extra make nodejs p7zip docker`
+
 [you need to `sudo usermod -aG docker $(whoami)`](https://stackoverflow.com/questions/21871479/docker-cant-connect-to-docker-daemon)
 
 [Once you need to configure binfmt-support on your Docker host. This works locally or remotely (i.e using boot2docker or swarm).](https://github.com/multiarch/alpine)
