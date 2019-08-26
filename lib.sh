@@ -101,7 +101,7 @@ umount_swap(){
 }
 umount_rootfs_all(){
     [ -f "$ROOTFS_LOCK" ] || fail "rootfs is not mounted."
-    kill -9 $(lsof -t "$ROOTFS_DIR")
+    lsof -t "$ROOTFS_DIR" | xargs -r kill -9 # -r, --no-run-if-empty
     for d in /dev/pts /dev /proc /sys /tmp; do
 	umount "$ROOTFS_DIR/$d" 2>/dev/null
     done
