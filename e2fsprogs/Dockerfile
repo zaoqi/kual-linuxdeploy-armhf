@@ -1,7 +1,7 @@
 FROM multiarch/debian-debootstrap:armel-jessie
 # jessie: in order to support linux 2.6
-RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
-RUN sed -i 's|security.debian.org|mirrors.ustc.edu.cn/debian-security|g' /etc/apt/sources.list
+#RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+#RUN sed -i 's|security.debian.org|mirrors.ustc.edu.cn/debian-security|g' /etc/apt/sources.list
 RUN apt update
 RUN apt install -y gcc dietlibc-dev aria2 make
 RUN mkdir /src

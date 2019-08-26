@@ -83,7 +83,6 @@ mount_rootfs_base(){
 }
 mount_rootfs_all(){
     mount_rootfs_base
-    copy_etc_files
     mkdir -p "$INNER_TMP" || fail
     mount -o bind "$INNER_TMP" "$ROOTFS_DIR/tmp" || fail "cannot bind /tmp."
     chmod 777 "$ROOTFS_DIR/tmp" || fail
@@ -101,6 +100,7 @@ umount_swap(){
 }
 umount_rootfs_all(){
     [ -f "$ROOTFS_LOCK" ] || fail "rootfs is not mounted."
+    kill -9 $(lsof -t "$ROOTFS_DIR")
     for d in /dev/pts /dev /proc /sys /tmp; do
 	umount "$ROOTFS_DIR/$d" 2>/dev/null
     done
@@ -144,5 +144,6 @@ install_tgz_rootfs(){
 
 do_chroot(){
     [ -f "$ROOTFS_LOCK" ] || fail "rootfs is not mounted."
+    copy_etc_files
     HOME=/root chroot "$ROOTFS_DIR" "$@"
 }
