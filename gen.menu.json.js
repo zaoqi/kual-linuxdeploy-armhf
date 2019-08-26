@@ -10,12 +10,12 @@ const kterm_scripts=
 		 ["China Mainland","./mirror.china.sh"]]],
 	     ["Add a sudo-enabled user called \"kindle\"","./install.sudo.user.sh"],
 	     ["Reset \"kindle\" user's password","./set.user.password.sh"],
-         ["USER=kindle Install desktop environment",
+         ["USER=kindle Install desktop environment",[
           ["Xfce4","./install.de.xfce4.sh"],
-          ["awesome","./install.de.awesome.sh"]],
-         ["USER=kindle Start desktop environment",
+          ["awesome","./install.de.awesome.sh"]]],
+         ["USER=kindle Start desktop environment",[
           ["xfce4","./chroot.de.xfce4.user.sh"],
-          ["awesome","./chroot.de.awesome.user.sh"]],
+          ["awesome","./chroot.de.awesome.user.sh"]]],
 	     ["Shell",[
 		  ["USER=kindle","./chroot.shell.user.sh"],
 		  ["USER=root","./chroot.shell.sh"]]],
