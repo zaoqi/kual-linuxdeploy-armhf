@@ -15,6 +15,6 @@ get_rootfs_tgz_url(){
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/releases/armhf/$(get_rootfs_tgz_filename)"
 }
 
-install_tgz_rootfs "$(get_rootfs_tgz_url)"
+install_tgz_rootfs "get_rootfs_tgz_url"
 
 quit

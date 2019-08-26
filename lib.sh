@@ -133,12 +133,12 @@ resize_rootfs_interactive(){
 }
 
 install_tgz_rootfs(){
-    local ROOTFS_TGZ_URL="$1"
     [ -f "$ROOTFS_LOCK" ] && fail "rootfs mounted."
     rm -fr "$ROOTFS_IMG" || fail
     cp rootfs."$ROOTFS_TYPE".base "$ROOTFS_IMG" || fail
     resize_rootfs_interactive
     mount_rootfs_base
+    local ROOTFS_TGZ_URL="$("$1")" # Delay
     curl "$ROOTFS_TGZ_URL" | tar -xvz -C "$ROOTFS_DIR" || fail "download and extract rootfs: failed."
     umount_rootfs_all
 }
