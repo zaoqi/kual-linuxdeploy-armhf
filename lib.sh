@@ -139,7 +139,7 @@ install_tgz_rootfs(){
     resize_rootfs_interactive
     mount_rootfs_base
     local ROOTFS_TGZ_URL="$("$1")" # Delay
-    curl "$ROOTFS_TGZ_URL" | tar -xvz -C "$ROOTFS_DIR" || fail "download and extract rootfs: failed."
+    curl -L "$ROOTFS_TGZ_URL" | tar -xvz -C "$ROOTFS_DIR" || fail "download and extract rootfs: failed."
     umount_rootfs_all
 }
 
