@@ -5,6 +5,7 @@ const kterm_scripts=
 	 [
 	     ["Install",[
 		  ["Alpine Linux Edge","./install.alpine.sh"],
+          ["Archlinux(maybe require Linux 4.x?)","./install.archlinux.sh"],
 		  ["Ubuntu 19.04(maybe require Linux 4.x?)","./install.ubuntu.1904.sh"]]],
 	     ["Change mirror",[
 		 ["China Mainland","./mirror.china.sh"]]],

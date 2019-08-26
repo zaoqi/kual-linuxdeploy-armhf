@@ -35,4 +35,6 @@ chmod +x "$ROOTFS_DIR/usr/share/applications/stopx.desktop"
   rm -fr "$ROOTFS_DIR/home/kindle/alpine_kindle_dotfiles-$dotfile_version/") ||
   fail "cannot download .config"
 
+do_chroot /bin/sh -c 'su -l kindle gsettings set org.onboard.window docking-enabled true && su -l kindle gsettings set org.onboard.auto-show enabled true'
+
 quit
