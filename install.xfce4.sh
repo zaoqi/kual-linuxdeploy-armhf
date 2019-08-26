@@ -19,7 +19,7 @@ else
 fi
 
 (curl -L "https://codeload.github.com/schuhumi/alpine_kindle_dotfiles/tar.gz/$dotfile_version" | tar -xzv -C "$ROOTFS_DIR/home/kindle" &&
-  mv "$ROOTFS_DIR/home/kindle/alpine_kindle_dotfiles-$dotfile_version/.config/" "$ROOTFS_DIR/home/kindle" &&
+  cp -rv "$ROOTFS_DIR/home/kindle/alpine_kindle_dotfiles-$dotfile_version/.config/" "$ROOTFS_DIR/home/kindle" &&
   rm -fr "$ROOTFS_DIR/home/kindle/alpine_kindle_dotfiles-$dotfile_version/") ||
   fail "cannot download .config"
 
