@@ -4,15 +4,17 @@ const kterm_scripts=
        [["Linux",
 	 [
 	     ["Install",[
-		 ["Alpine Linux Edge","./install.alpine.sh"],
-		 ["Ubuntu 19.04(maybe require Linux 4.x?)","./install.ubuntu.1904.sh"]]],
+		  ["Alpine Linux Edge","./install.alpine.sh"],
+		  ["Ubuntu 19.04(maybe require Linux 4.x?)","./install.ubuntu.1904.sh"]]],
 	     ["Change mirror",[
 		 ["China Mainland","./mirror.china.sh"]]],
 	     ["Add a sudo-enabled user called \"kindle\"","./install.sudo.user.sh"],
 	     ["Reset \"kindle\" user's password","./set.user.password.sh"],
+         ["USER=kindle Install XFCE4","./install.xfce4.sh"],
+         ["USER=kindle Start Xfce4","./chroot.xfce4.user.sh"],
 	     ["Shell",[
-		 ["USER=kindle","./chroot.shell.user.sh"],
-		 ["USER=root","./chroot.shell.sh"]]],
+		  ["USER=kindle","./chroot.shell.user.sh"],
+		  ["USER=root","./chroot.shell.sh"]]],
 	     ["Add/Resize swap file","./make.swap.sh"],
 	     ["Remove swap file",
 	      [["Yes,remoce swap file","./remove.swap.sh"],
