@@ -89,6 +89,7 @@ mount_rootfs_all(){
     for d in /dev /dev/pts /proc /sys; do
 	mount -o bind "/$d" "$ROOTFS_DIR/$d" || fail "cannot bind $d"
     done
+    chmod a+w /dev/shm
     mount_swap
 }
 
