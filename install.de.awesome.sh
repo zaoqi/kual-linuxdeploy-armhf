@@ -24,7 +24,7 @@ cat > "$ROOTFS_DIR/usr/share/applications/stopx.desktop" << 'EOF'
 Categories=Network;InstantMessaging;GTK;GNOME;
 Name=Stop X
 Version=1.0
-Exec=killall Xephyr xfce4-session
+Exec=killall Xephyr
 Terminal=false
 Type=Application
 EOF

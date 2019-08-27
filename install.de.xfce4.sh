@@ -24,7 +24,7 @@ cat > "$ROOTFS_DIR/usr/share/applications/stopx.desktop" << 'EOF'
 Categories=Network;InstantMessaging;GTK;GNOME;
 Name=Stop X
 Version=1.0
-Exec=killall Xephyr xfce4-session
+Exec=killall Xephyr
 Terminal=false
 Type=Application
 EOF
@@ -34,7 +34,5 @@ chmod +x "$ROOTFS_DIR/usr/share/applications/stopx.desktop"
   cp -rv "$ROOTFS_DIR/home/kindle/alpine_kindle_dotfiles-$dotfile_version/.config/" "$ROOTFS_DIR/home/kindle" &&
   rm -fr "$ROOTFS_DIR/home/kindle/alpine_kindle_dotfiles-$dotfile_version/") ||
   fail "cannot download .config"
-
-do_chroot /bin/sh -c 'su -l kindle gsettings set org.onboard.window docking-enabled true && su -l kindle gsettings set org.onboard.auto-show enabled true'
 
 quit
