@@ -30,3 +30,7 @@ $ make
 # Screenshot
 
 ![screenshot 1](./screenshot/screenshot_2019_07_16T23_20_24+0800.png)
+
+# Related projects
+
+* [alpine_kindle](https://github.com/schuhumi/alpine_kindle_kual): Utilities to get Alpine Linux with Chromium browser running for KPW3
